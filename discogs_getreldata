@@ -233,7 +233,21 @@ function show_tracklist
     fi
   done
 }
+# show Barcodes
+function show_barcodes
+{
+  local tmp=$(echo "$g_reldata" | jq -r '.identifiers[0]')
+  if ! [ "$tmp" == "null" ] ; then
+    IFS=$'\n'
+    tmp=($(echo "$g_reldata" | jq -r '.identifiers[] | if .type == "Barcode" and .description == "String" then {type: .type, value: .value} else empty end'))
+    IFS="$g_sep"
+    if [ -n "$tmp" ] ; then
+      echo -e "IDENTIFIERS$g_sep${tmp[*]}"
+    fi
+  fi
+}
 # ------------------------------------------------------------------------------------------------------------------
+
 # Main
 
 # global Variables
@@ -274,6 +288,7 @@ show_genres
 show_styles
 show_tracklist
 show_picurls
+show_identifiers
 
 # restore
 IFS="$g_oldifs"
