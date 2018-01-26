@@ -233,7 +233,10 @@ function show_tracklist
     fi
   done
 }
+# ------------------------------------------------------------------------------------------------------------------
+
 # show Barcodes
+
 function show_barcodes
 {
   local tmp=$(echo "$g_reldata" | jq -r '.identifiers[0]')
@@ -288,7 +291,7 @@ show_genres
 show_styles
 show_tracklist
 show_picurls
-show_identifiers
+show_barcodes
 
 # restore
 IFS="$g_oldifs"
